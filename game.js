@@ -69,21 +69,14 @@ function update() {
 }
 
 function movePlayer() {
-    if (cursor.left.isDown) {
-        player.body.velocity.x = -150;
-        //player.animations.play('left');
-    }
-    else if (cursor.right.isDown) {
-        player.body.velocity.x = 150;
-        //player.sprite.animations.play('right');
-    }
-    else if (cursor.up.isDown) {
+  var velocityModifier = 500;
+   if (cursor.up.isDown) {
         //Move up the screen
-        player.body.velocity.y = -150;
+        player.body.velocity.y = -velocityModifier;
     }
     else if (cursor.down.isDown) {
         //Move down the screen
-        player.body.velocity.y = 150;
+        player.body.velocity.y = velocityModifier;
     }
     
 }
