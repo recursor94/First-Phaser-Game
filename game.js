@@ -7,6 +7,7 @@ var wall;
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, '', {
     preload: preload, create: create, update: update });
 var cursor;
+var characters;
 
 //prototype for the player
 
@@ -37,38 +38,52 @@ function create() {
     
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.stage.backgroundColor = '#2d2d2d';
-    player = new Player(game.add.sprite(gameWidth-32, gameHeight -32, 'player'));
-    wall = new Wall(game.add.sprite(gameWidth-64, gameHeight-64, 'wall'));
-    game.physics.arcade.enable(player.sprite);
-    game.physics.arcade.enable(wall.sprite);
+    player = game.add.sprite(gameWidth-32, gameHeight -32, 'player');
+    wall = game.add.group();
+    wall.enableBody=true;
+    wall.physicsBodyType = Phaser.Physics.ARCADE;
+    var brick = wall.create(550,0, 'wall');
+    brick.scale.setTo(1,24);
+    brick.body.immovable=true;
+    
+
+    game.physics.arcade.enable(player);
     cursor = game.input.keyboard.createCursorKeys();
-    player.sprite.body.collideWorldBounds = true;
+    player.body.collideWorldBounds = true;
+
+    
     
 }
 
 function update() {
-    player.sprite.body.velocity.x = 0;
-    player.sprite.body.velocity.y = 0;
-    movePlayer();
+    game.physics.arcade.collide(player, wall);
+    //player.collideWorldBounds = true;
+    player.body.velocity.x = 0;
+    player.body.velocity.y = 0;
+    movePlayer();    
+
+
+
+
     
 }
 
 function movePlayer() {
     if (cursor.left.isDown) {
-        player.sprite.body.velocity.x = -150;
+        player.body.velocity.x = -150;
         //player.animations.play('left');
     }
     else if (cursor.right.isDown) {
-        player.sprite.body.velocity.x = 150;
+        player.body.velocity.x = 150;
         //player.sprite.animations.play('right');
     }
     else if (cursor.up.isDown) {
         //Move up the screen
-        player.sprite.body.velocity.y = -150;
+        player.body.velocity.y = -150;
     }
     else if (cursor.down.isDown) {
         //Move down the screen
-        player.sprite.body.velocity.y = 150;
+        player.body.velocity.y = 150;
     }
     
 }
