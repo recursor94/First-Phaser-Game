@@ -3,7 +3,7 @@ var gameHeight = 600,
     gameWidth = 800;
 
 var player;
-var wall;
+var walls;
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, '', {
     preload: preload, create: create, update: update });
 var cursor;
@@ -12,26 +12,46 @@ var enemies;
 
 //prototype for the player
 
-function Player(sprite) {
-    this.sprite = sprite;
+function Player(spritePath) {
 
     this.preload = function() {
+	game.load.image('player', spritePath);
 	
-    }
+
+    };
+
+    this.create = function() {
+	player = game.add.sprite(game.width-170, game.height -32, 'player');
+	game.physics.arcade.enable(player);
+	player.body.collideWorldBounds = true;
+    };
+
+    this.update = function() {
+	player.body.velocity.x = 0;
+	player.body.velocity.y = 0;
+	movePlayer();    
+    };
     
 
 
 }
 
-function Wall (sprite) {
-    this.sprite = sprite;
+function Walls (spritePath) {
+    this.preload = function () {
+	    game.load.image('wall', spritePath);
+    };
+
+    this.create = function () {
+
+    };
 }
 
 
 function preload () {
-    game.load.image('enemy', 'assets/images/enemy.png');
+
     game.load.image('ally', 'assets/images/ally.png');
     game.load.image('wall', 'assets/images/wall.png');
+    game.load.image('enemy', 'assets/images/enemy.png');
 
 
 }
@@ -43,18 +63,18 @@ function create() {
     
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.stage.backgroundColor = '#2d2d2d';
-    player = game.add.sprite(game.width-170, game.height -32, 'player');
-    wall = game.add.group();
-    wall.enableBody=true;
-    wall.physicsBodyType = Phaser.Physics.ARCADE;
-    var brick = wall.create(game.width-200,0, 'wall');
+
+    walls = game.add.group();
+    walls.enableBody=true;
+    walls.physicsBodyType = Phaser.Physics.ARCADE;
+    var brick = walls.create(game.width-200,0, 'wall');
     brick.scale.setTo(1,24);
     brick.body.immovable=true;
     
 
-    game.physics.arcade.enable(player);
+
     cursor = game.input.keyboard.createCursorKeys();
-    player.body.collideWorldBounds = true;
+
 
     //enemy code
     
@@ -70,9 +90,7 @@ function update() {
     game.physics.arcade.collide(player, wall);
     game.physics.arcade.collide(enemies, wall);
     //player.collideWorldBounds = true;
-    player.body.velocity.x = 0;
-    player.body.velocity.y = 0;
-    movePlayer();    
+
 
 
 
