@@ -25,6 +25,7 @@ function create() {
     player = game.add.sprite(gameWidth -32,gameHeight - 32, 'player');
     game.physics.arcade.enable(player);
     cursor = game.input.keyboard.createCursorKeys();
+    player.body.collideWorldBounds = true;
     
 }
 
