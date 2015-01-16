@@ -8,11 +8,17 @@ var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, '', {
     preload: preload, create: create, update: update });
 var cursor;
 var characters;
+var enemies;
 
 //prototype for the player
 
 function Player(sprite) {
     this.sprite = sprite;
+
+    this.preload = function() {
+	
+    }
+    
 
 
 }
@@ -23,7 +29,6 @@ function Wall (sprite) {
 
 
 function preload () {
-    game.load.image('player', 'assets/images/player.png');
     game.load.image('enemy', 'assets/images/enemy.png');
     game.load.image('ally', 'assets/images/ally.png');
     game.load.image('wall', 'assets/images/wall.png');
@@ -51,12 +56,19 @@ function create() {
     cursor = game.input.keyboard.createCursorKeys();
     player.body.collideWorldBounds = true;
 
+    //enemy code
+    
+    enemies =  game.add.group();
+    enemies.enableBody=true;
+    enemies.physicsBodyType = Phaser.Physics.ARCADE;
+    var enemy = enemies.create(game.width-500, game.height-200, 'enemy');
     
     
 }
 
 function update() {
     game.physics.arcade.collide(player, wall);
+    game.physics.arcade.collide(enemies, wall);
     //player.collideWorldBounds = true;
     player.body.velocity.x = 0;
     player.body.velocity.y = 0;
