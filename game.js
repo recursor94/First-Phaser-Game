@@ -48,8 +48,7 @@ function enemies (spritePath) {
     this.create = function() {
 	this.group.createMultiple(10, 'enemy');
 	this.group.enableBody=true;
-	this.group.physicsBodyType = Phaser.Physics.ARCADE; //for some reason this doesn't work for giving the sprites their own collision'
-
+	this.group.physicsBodyType = Phaser.Physics.ARCADE; //doesn't give individual sprites  bodies for some reason'
 
     };
 
@@ -58,9 +57,9 @@ function enemies (spritePath) {
 	if(enemy !=null) {
 	    console.log(enemy);
 	    enemy.reset(0, game.rnd.integerInRange(20, 550));
-	    game.physics.enable(enemy, Phaser.Physics.ARCADE, true);
+	    game.physics.enable(enemy, Phaser.Physics.ARCADE, true);//otherwise doesn't have body'
 	    enemy.body.velocity.x = this.velocity;
-	    game.physics.arcade.collide(enemy, walls);
+	    //game.physics.arcade.collide(enemy, walls);
 	}
 	
     };
@@ -111,7 +110,7 @@ function create() {
 
 function update() {
     game.physics.arcade.collide(player.sprite, walls);
-    game.physics.arcade.collide(enemyEntities, walls);
+    game.physics.arcade.collide(enemyEntities.group, walls);
 
     player.update();
     enemyEntities.update();
