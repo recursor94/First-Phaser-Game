@@ -67,7 +67,19 @@ function enemies (spritePath) {
 }
 
 function bullet(spritePath) {
-    
+
+    this.preload = function () {
+
+	game.load.image(spritePath);
+	
+    };
+    this.create = function () {
+
+    };
+
+    this.update = function () {
+	
+    };
 
 }
 
