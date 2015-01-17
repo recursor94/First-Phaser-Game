@@ -4,8 +4,6 @@
 //configure height and width of game window
 var gameHeight = 600,
     gameWidth = 800;
-
-var player;
 var walls;
 var game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, '', {
     preload: preload, create: create, update: update });
@@ -13,6 +11,7 @@ var cursor;
 var enemyEntities;
 var level = 0;
 var player;
+var bullets;
 //prototype for the player
 
 function Player(spritePath) {
@@ -67,7 +66,7 @@ function enemies (spritePath) {
 }
 
 function bullet(spritePath) {
-
+    this.group = game.add.group();
     this.preload = function () {
 
 	game.load.image(spritePath);
@@ -89,11 +88,10 @@ function bullet(spritePath) {
 function preload () {
     player= new Player('assets/images/player.png');
     enemyEntities = new enemies('assets/images/enemy.png');
+    bullets = new bullet('assets/images/bullet.png');
     
     player.preload();
     enemyEntities.preload();
-
-    game.load.image('ally', 'assets/images/ally.png');
     game.load.image('wall', 'assets/images/wall.png');
 
 
