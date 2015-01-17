@@ -16,8 +16,6 @@ var player;
 //prototype for the player
 
 function Player(spritePath) {
-    this.sprite;
-
     this.preload = function() {
 	game.load.image('player', spritePath);
 	
@@ -42,56 +40,55 @@ function Player(spritePath) {
 function enemies (spritePath) {
     
     this.group = game.add.group();
+    this.velocity = 100;
     this.preload = function() {
 	game.load.image('enemy', spritePath);
-    }
+    };
 
     this.create = function() {
 	this.group.createMultiple(10, 'enemy');
 	this.group.enableBody=true;
-	this.group.physicsBodyType = Phaser.Physics.ARCADE;
+	this.group.physicsBodyType = Phaser.Physics.ARCADE; //for some reason this doesn't work for giving the sprites their own collision'
 
 
-    }
+    };
 
     this.update = function () {
 	var enemy = this.group.getFirstExists(false);
-	enemy.reset(0,0);
+	if(enemy !=null) {
+	    console.log(enemy);
+	    enemy.reset(0, game.rnd.integerInRange(20, 550));
+	    game.physics.enable(enemy, Phaser.Physics.ARCADE, true);
+	    enemy.body.velocity.x = this.velocity;
+	    game.physics.arcade.collide(enemy, walls);
+	}
 	
-    }
+    };
 
 }
 
-function Walls (spritePath) {
-    this.preload = function () {
-	    game.load.image('wall', spritePath);
-    };
 
-    this.create = function () {
-
-    };
-}
 
 
 function preload () {
     player= new Player('assets/images/player.png');
-    enemyEntities = new enemy('assets/images/enemy.png')
+    enemyEntities = new enemies('assets/images/enemy.png');
     
     player.preload();
+    enemyEntities.preload();
 
     game.load.image('ally', 'assets/images/ally.png');
     game.load.image('wall', 'assets/images/wall.png');
-    game.load.image('enemy', 'assets/images/enemy.png');
 
 
 }
 
 
 function create() {
-    player.create();
-    enemyEntities.create();
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.stage.backgroundColor = '#2d2d2d';
+    player.create();
+    enemyEntities.create();
 
     walls = game.add.group();
     walls.enableBody=true;
