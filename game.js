@@ -32,10 +32,18 @@ function Player(spritePath) {
 	this.sprite.body.velocity.y = 0;
 	movePlayer();    
     };
+
+    this.fireBullets = function(bulletGroup) {
+	var bull = bulletGroup.getFirstExists(false); //having problems with uniquenames considering name of prototype functions
+	bull.reset(this.sprite.x, this.sprite.y);
+	bull.velocity.x = -25;
+		
+
+    };
     
 
 
-};
+}
 function enemies (spritePath) {
     
     this.group = game.add.group();
@@ -110,6 +118,7 @@ function create() {
     game.stage.backgroundColor = 'c9ddd9';
     player.create();
     enemyEntities.create();
+    bullets.create();
 
     walls = game.add.group();
     walls.enableBody=true;
