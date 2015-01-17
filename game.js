@@ -69,14 +69,21 @@ function bullet(spritePath) {
     this.group = game.add.group();
     this.preload = function () {
 
-	game.load.image(spritePath);
+	game.load.image('bullet',spritePath);
 	
     };
     this.create = function () {
+	this.group.createMultiple('bullet', 5);
+	this.group.enableBody = true;
+	this.group.physicsBodyType = Phaser.Physics.ARCADE; //doesn't give individual sprites  bodies for some reason'
+	this.group.setAll('outOfBoundsKill', true);
+	this.group.setAll('checkWorldBounds', true);
 
     };
 
     this.update = function () {
+	var bullet = this.group.getFirstExists(false);
+	
 	
     };
 
