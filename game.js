@@ -100,7 +100,7 @@ function preload () {
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.stage.backgroundColor = '#2d2d2d';
+    game.stage.backgroundColor = '#00FF00';
     player.create();
     enemyEntities.create();
 
