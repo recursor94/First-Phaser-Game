@@ -34,7 +34,10 @@ function Player(spritePath) {
     };
 
     this.fireBullets = function(bulletGroup) {
+	console.log("Bullet Group: " + bulletGroup);
 	var bull = bulletGroup.getFirstExists(false); //having problems with uniquenames considering name of prototype functions
+	console.log(bull)  ;
+	game.physics.enable(bull, Phaser.Physics.ARCADE, true);//otherwise doesn't have body'
 	bull.reset(this.sprite.x, this.sprite.y);
 	bull.velocity.x = -25;
 		
@@ -62,7 +65,6 @@ function enemies (spritePath) {
     this.update = function () {
 	var enemy = this.group.getFirstExists(false);
 	if(enemy !=null) {
-	    console.log(enemy);
 	    enemy.reset(0, game.rnd.integerInRange(20, 550));
 	    game.physics.enable(enemy, Phaser.Physics.ARCADE, true);//otherwise doesn't have body'
 	    enemy.body.velocity.x = this.velocity;
@@ -90,7 +92,8 @@ function bullet(spritePath) {
     };
 
     this.update = function () {
-	var bullet = this.group.getFirstExists(false);
+	//var bullet = this.group.getFirstExists(false);
+	
 	
 	
     };
@@ -145,6 +148,12 @@ function update() {
 
     player.update();
     enemyEntities.update();
+    if(cursor.left.isDown) {
+	console.log(bullets.group);
+	player.fireBullets(bullets.group);
+    }
+
+
     
 }
 
