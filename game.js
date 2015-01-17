@@ -66,6 +66,11 @@ function enemies (spritePath) {
 
 }
 
+function bullet(spritePath) {
+    
+
+}
+
 
 
 
